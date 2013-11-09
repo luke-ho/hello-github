@@ -19,8 +19,8 @@ class GitHubGreeting : public Greeting {
             s += "GitHub!";
             printGreeting();
         }
-        GitHubGreeting(GitHubGreeting & h) { }
-        GitHubGreeting(GitHubGreeting * h) { }
+        GitHubGreeting(GitHubGreeting & h) { GitHubGreeting(); }
+        GitHubGreeting(GitHubGreeting * h) { GitHubGreeting(); }
         virtual ~GitHubGreeting() { }
         void operator=(GitHubGreeting & h) { }
         void printGreeting() { 
