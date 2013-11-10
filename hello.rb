@@ -1,3 +1,3 @@
 #!/usr/bin/ruby
 
-print "Hello GitHub!\n"
+print "Hello, GitHub!\n"
