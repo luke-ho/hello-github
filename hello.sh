@@ -1,3 +1,3 @@
 #!/bin/sh
 
-echo "Hello GitHub! How are you?"
+echo "Hello, GitHub!"
