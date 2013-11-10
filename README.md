@@ -29,7 +29,7 @@ Running
 
 Compiled languages (C, C++, Java)
 -------------------------
-Go to the bin directory and run the respective commands to run the application
+Go to the bin directory and run the respective commands to run the application.
 
     ./hello_c
     ./hello_cpp
@@ -37,7 +37,7 @@ Go to the bin directory and run the respective commands to run the application
 
 Interpreted languages
 -------------------------
-Run the respective interpreter with the language
+Run the respective interpreter with the language.
 
     python hello.py
     ruby hello.rb
