@@ -1,3 +1,3 @@
 #!/usr/bin/perl
 
-print "Hello Github!\n";
+print "Hello, Github!\n";
