@@ -49,6 +49,4 @@ Run the respective interpreter with the language
 License
 ============
 
-License
-
 This project is under the MIT license. See LICENSE for more details.
