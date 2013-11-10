@@ -1,7 +1,7 @@
 hello-github
 ============
 
-![alt tag](https://raw.github.com/luke-ho/hello-github/master/hello_github.png)
+![alt tag](https://raw.github.com/luke-ho/hello-github/master/img/hello_github.png)
 
 Compiling
 ============
@@ -42,6 +42,6 @@ Run the respective interpreter with the language
     python hello.py
     ruby hello.rb
 
-![mindblown](https://raw.github.com/luke-ho/hello-github/master/mind_blown.gif) 
+![mindblown](https://raw.github.com/luke-ho/hello-github/master/img/mind_blown.gif) 
 -------------------------
 (Special thanks to [imgur] (http://i.imgur.com/sg017lt.gif))
