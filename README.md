@@ -49,4 +49,4 @@ Run the respective interpreter with the language.
 License
 ============
 
-This project is under the MIT license. See LICENSE for more details.
+This project is under the MIT license. See [LICENSE] (https://raw.github.com/luke-ho/hello-github/master/LICENSE) for more details.
