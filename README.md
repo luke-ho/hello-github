@@ -42,4 +42,6 @@ Run the respective interpreter with the language
     python hello.py
     ruby hello.rb
 
-+![mindblown](http://i.imgur.com/sg017lt.gif)
+![mindblown](https://raw.github.com/luke-ho/hello-github/master/mind_blown.gif) 
+-------------------------
+(Special thanks to [imgur] (http://i.imgur.com/sg017lt.gif))
