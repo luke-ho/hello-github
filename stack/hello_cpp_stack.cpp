@@ -19,7 +19,7 @@ class StackNode {
         StackNode(T * v) : StackNode() {
             if ( v ) {
                 val = v->val;
-                next = v->val;
+                next = v->next;
             } else {
                 cout << "(" << __LINE__ << "): Error: ptr passed in is NULL" << endl;
             }
