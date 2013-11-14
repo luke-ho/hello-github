@@ -17,7 +17,8 @@ tests = [
 		 "ruby hello.rb",
 		 "perl hello.pl",
 		 "sh hello.sh",
-		 "tclsh hello.tcl"
+		 "tclsh hello.tcl",
+		 "cat hello.txt"
 		]
 
 def run_test(test):
