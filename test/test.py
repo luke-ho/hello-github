@@ -4,7 +4,7 @@ import os
 import re
 import commands
 
-successRE = re.compile("Hello, GitHub!")
+successRE = re.compile("^Hello, GitHub!$")
 
 testsPassed = 0
 
@@ -18,13 +18,13 @@ tests = [
 		 "perl hello.pl",
 		 "sh hello.sh",
 		 "tclsh hello.tcl",
-		 "cat hello.txt"
+		 "cat hello.txt",
+		 "stack/bin/hello_cpp_stack" 
 		]
 
 def run_test(test):
 	global testsPassed
 	output = commands.getoutput(test)
-	output.rstrip()
 	if len(output) > 0 and successRE.match(output) != None:
 		testsPassed += 1
 	else:
