@@ -46,6 +46,16 @@ Run the respective interpreter with the language.
 
 (Special thanks to [imgur] (http://i.imgur.com/sg017lt.gif))
 
+Testing
+============
+
+Go to the test directory and run:
+
+    python test.py
+
+If all goes well, it will run all of the binaries and scripts and tell you which tests passed or failed. 
+    
+
 License
 ============
 
