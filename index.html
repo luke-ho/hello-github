@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Hello, GitHub!</title>
+    <style>
+        #content { 
+            color: #FFFFFF;
+            font-family: "Helvetica Neue";
+        }
+        div.page {
+            background-color: #000000;
+            width: 100%;
+            height: auto;
+            bottom: 0px;
+            top: 0px;
+            left: 0;
+            position: absolute;
+        }
+        div.center {
+            position: absolute;
+            width: 215px;
+            height: 100px;
+            top: 47%;
+            left: 47%;
+            margin-top: -25px;
+            margin-left: -50px;
+        }
+    </style>
+</head>
+<body>  
+    <div class="page">
+        <div class="center">
+            <h1 id="content">Hello, GitHub!</h1>
+        </div>
+    </div>
+</body>
+<script src="js/jquery.min.js"></script>
+<script type="text/javascript">
+    $(document).ready(function() {
+        $("#content").hover(function() {
+            $( "div.page" ).css({
+                "background-color" : "white"
+            });
+            $( this ).css({
+                "color" : "black"
+            });
+        }, function() {
+            $( "div.page" ).css({
+                "background-color" : "black"
+            });
+            $ ( this ) .css ({
+                "color" : "white"
+            });
+        });
+    });
+</script>
+</html> 
