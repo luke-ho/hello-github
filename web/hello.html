@@ -35,22 +35,23 @@
     </div>
 </body>
 <script src="js/jquery.min.js"></script>
+<script src="js/jquery-ui.min.js"></script>
 <script type="text/javascript">
     $(document).ready(function() {
         $("#content").hover(function() {
-            $( "div.page" ).css({
-                "background-color" : "white"
-            });
-            $( this ).css({
-                "color" : "black"
-            });
+            $( "div.page" ).animate({
+                backgroundColor : "#FFFFFF"
+            }, 1500);
+            $( "#content").animate({
+                color : "#000000"
+            }, 1500);
         }, function() {
-            $( "div.page" ).css({
-                "background-color" : "black"
-            });
-            $ ( this ) .css ({
-                "color" : "white"
-            });
+            $( "div.page" ).animate({
+                backgroundColor : "#000000"
+            }, 1500);
+            $ ( "#content" ).animate({
+                color : "#FFFFFF"
+            }, 1500);
         });
     });
 </script>
