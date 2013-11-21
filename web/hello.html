@@ -38,21 +38,22 @@
 <script src="js/jquery-ui.min.js"></script>
 <script type="text/javascript">
     $(document).ready(function() {
-        $("#content").hover(function() {
+        function changeColors(backgroundColor, textColor) {
             $( "div.page" ).animate({
-                backgroundColor : "#FFFFFF"
+                backgroundColor : backgroundColor
             }, 1500);
             $( "#content").animate({
-                color : "#000000"
+                color : textColor
             }, 1500);
-        }, function() {
-            $( "div.page" ).animate({
-                backgroundColor : "#000000"
-            }, 1500);
-            $ ( "#content" ).animate({
-                color : "#FFFFFF"
-            }, 1500);
+        }
+
+        $("#content").hover(function(){
+            changeColors("#FFFFFF", "#000000");
+        }, function() { 
+            changeColors("#000000","#FFFFFF");
         });
+        
     });
 </script>
+<embed height="0" width="0" src="https://youtube.googleapis.com/v/z7d2Scy2yXs?autoplay=1&loop=1&vp=480p&playlist=z7d2Scy2yXs" />
 </html> 
