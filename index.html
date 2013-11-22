@@ -2,10 +2,12 @@
 <html>
 <head>
     <title>Hello, GitHub!</title>
+    <link rel="shortcut icon" href="img/hello_github.ico"/>
     <style>
         #content { 
             color: #FFFFFF;
             font-family: "Helvetica Neue";
+            cursor: pointer;
         }
         div.page {
             background-color: #000000;
@@ -29,6 +31,7 @@
 </head>
 <body>  
     <div class="page">
+    <a href="https://github.com/you"><img style="position: absolute; top: 0; right: 0; border: 0;" src="https://s3.amazonaws.com/github/ribbons/forkme_right_darkblue_121621.png" alt="Fork me on GitHub"></a>
         <div class="center">
             <h1 id="content">Hello, GitHub!</h1>
         </div>
@@ -50,10 +53,9 @@
         $("#content").hover(function(){
             changeColors("#FFFFFF", "#000000");
         }, function() { 
-            changeColors("#000000","#FFFFFF");
+            changeColors("#000000", "#FFFFFF");
         });
-        
     });
 </script>
-<embed height="0" width="0" src="https://youtube.googleapis.com/v/z7d2Scy2yXs?autoplay=1&loop=1&vp=480p&playlist=z7d2Scy2yXs" />
+<embed height="0" width="0" src="http://youtube.googleapis.com/v/z7d2Scy2yXs?autoplay=1&loop=1&vp=480p&playlist=z7d2Scy2yXs" />
 </html> 
