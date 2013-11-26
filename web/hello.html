@@ -9,25 +9,55 @@
             font-family: "Helvetica Neue";
             cursor: pointer;
         }
-        div.page {
-            background-color: #000000;
+        div.background {
+            background-color : #000000;
+            opacity: 1;
             width: 100%;
             height: auto;
             bottom: 0px;
             top: 0px;
             left: 0;
             position: absolute;
+            z-index: -99;
+            position: absolute;
+            background-attachment:fixed;
+            background-position:center;
+            background-repeat:no-repeat;
+        }
+
+        div.background_overlay {
+            background-color : #000000;
+            opacity: 1;
+            width: 100%;
+            height: auto;
+            bottom: 0px;
+            top: 0px;
+            left: 0;
+            position: absolute;
+            z-index: -50;
+        }
+        div.page {
+            background-color : transparent;
+            opacity: 1;
+            width: 100%;
+            height: auto;
+            bottom: 0px;
+            top: 0px;
+            left: 0;
+            position: absolute;
+            background-attachment:fixed;
+            background-position:center;
+            background-repeat:no-repeat;
         }
         div.center {
             position: absolute;
             width: 215px;
             height: 100px;
             top: 27%;
-            left: 47%;
+            left:47%;
             margin-top: -25px;
             margin-left: -50px;
         }
-
         div.twitterFeed{
             position: absolute;
             width: 500px;
@@ -40,8 +70,11 @@
     </style>
 </head>
 <body>  
+    <div class="background"></div> 
+    
+    <div class="background_overlay"></div>
     <div class="page">
-    <a href="https://github.com/luke-ho/hello-github"><img style="position: absolute; top: 0; right: 0; border: 0;" src="https://s3.amazonaws.com/github/ribbons/forkme_right_darkblue_121621.png" alt="Fork me on GitHub"></a>
+        <a href="https://github.com/luke-ho/hello-github"><img style="position: absolute; top: 0; right: 0; border: 0;" src="https://s3.amazonaws.com/github/ribbons/forkme_right_darkblue_121621.png" alt="Fork me on GitHub"></a>
         <div class="center">
             <h1 id="content">Hello, GitHub!</h1>
         </div>
@@ -63,13 +96,83 @@
             }, 1500);
         }
 
+        var flickrAPIKey = "d7be36810508e06056c914d4182394f7";
+        var restartTimer;
+
+        // checks to see if we need to restart the whole process of getting pictures
+        function checkAnimateQueueLength() {
+            console.log( "animation queue length: " + $("div.background_overlay").queue('fx').length);
+            if ( $("div.background_overlay").queue('fx').length == 0 ) {
+                // Restart the whole process again
+                console.log("Restarting fetching images");
+                clearTimeout(restartTimer);
+                changeBackgroundImage();
+
+            }
+        }
+
+        // Gets the best image from flickr 
+        function getFlickrImg(imgID, imgNum, maxImgs) {
+            // Get width and height of current page
+            var pageWidth = $( "div.page" ).width();        
+            var pageHeight = $( "div.page" ).height();        
+            //var bestWidth = 0;
+            //var bestHeight = 0;
+            var bestLink = 0;
+
+            // Send the JSON request for best image size
+            $.getJSON("http://api.flickr.com/services/rest/?method=flickr.photos.getSizes&nojsoncallback=1",
+               {
+                    api_key : flickrAPIKey,
+                    photo_id : imgID,
+                    format   : "json",
+               }).done(
+                   function(data) {
+                        // TODO: Find best image based on screen resolution; for now pick largest photo
+                        bestLink = data.sizes.size[data.sizes.size.length-1].source
+                        console.log("bestLink:" + bestLink);
+                       
+                       $("div.background_overlay").animate({opacity : 1}, 10000, function() { 
+                           $("div.background").css('background-image', "url(" + bestLink + ")");
+                       });
+                       $("div.background_overlay").animate({opacity : 0}, 10000);
+
+                       // Create timer to restart the whole process again
+                       if (imgNum == maxImgs) {
+                           restartTimer = setInterval(function() {checkAnimateQueueLength();}, 10000);
+                       }
+               });
+        }
+
+        // Gets all of the images from flickr
+        function changeBackgroundImage() {
+            var flickrTags = ["scenic landscape", "scenic hiking", "landscapes", "scenic clouds", "fjord", "night"];
+
+            // Randomly pick tags from array
+            $.getJSON("http://api.flickr.com/services/feeds/photos_public.gne?jsoncallback=?",
+                { 
+                  tags   : flickrTags[Math.floor(Math.random() * (flickrTags.length-1))],
+                  tagmode : "any",  
+                  format : "json"
+                }).done(
+                    function(data) {
+                        $.each(data.items, function(i, item) {
+                            //get image id from link
+                            var imgID = item.link.split("/")[5];
+                            console.log("imgID:" + imgID + ", i:" + i + ", items.length:" + data.items.length );
+                            getFlickrImg(imgID, i, data.items.length-1);
+                        });
+                    });
+        }
+
+        // ============= main content =============
         $("#content").hover(function(){
             changeColors("#FFFFFF", "#000000");
         }, function() { 
-            changeColors("#000000", "#FFFFFF");
+            changeColors("transparent", "#FFFFFF");
         });
+        changeBackgroundImage();
     });
-    
 </script>
 
 <!--- Twitter JavaScript -->
@@ -77,6 +180,6 @@
     !function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+"://platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");
 </script>
 
-<!-- YouTube video -->
-<embed height="0" width="0" src="http://youtube.googleapis.com/v/z7d2Scy2yXs?autoplay=1&loop=1&vp=480p&playlist=z7d2Scy2yXs" />
+<!-- YouTube video commented out for the time being-->
+<!--<embed height="0" width="0" src="http://youtube.googleapis.com/v/z7d2Scy2yXs?autoplay=1&loop=1&vp=480p&playlist=z7d2Scy2yXs" /> -->
 </html> 
