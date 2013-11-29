@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Background</title>
+    <link rel="shortcut icon" href="img/hello_github.ico"/>
+    <style>
+        div.background {
+            background-color : #000000;
+            opacity: 1;
+            width: 100%;
+            height: auto;
+            bottom: 0px;
+            top: 0px;
+            left: 0;
+            position: absolute;
+            z-index: -99;
+            position: absolute;
+            background-attachment:fixed;
+            background-position:center;
+            background-repeat:no-repeat;
+        }
+        div.background_overlay {
+            background-color : #000000;
+            opacity: 0;
+            width: 100%;
+            height: auto;
+            bottom: 0px;
+            top: 0px;
+            left: 0;
+            position: absolute;
+            z-index: -50;
+        }
+        div.page {
+            background-color : transparent;
+            opacity: 1;
+            width: 100%;
+            height: auto;
+            bottom: 0px;
+            top: 0px;
+            left: 0;
+            position: absolute;
+            background-attachment:fixed;
+            background-position:center;
+            background-repeat:no-repeat;
+        }
+    </style>
+</head>
+<body>  
+    <div class="background"></div> 
+    <div class="background_overlay"></div>
+    <div class="page">
+    </div>
+</body>
+<script src="js/jquery.min.js"></script>
+<script type="text/javascript">
+    $(document).ready(function() {
+        var flickrAPIKey = "d7be36810508e06056c914d4182394f7";
+        var restartTimer;
+        var firstPicture = true;
+
+        // checks to see if we need to restart the whole process of getting pictures
+        function checkAnimateQueueLength() {
+            console.log( "animation queue length: " + $("div.background_overlay").queue('fx').length);
+            if ( $("div.background_overlay").queue('fx').length == 0 ) {
+                // Restart the whole process again
+                console.log("Restarting fetching images");
+                clearTimeout(restartTimer);
+                changeBackgroundImage();
+
+            }
+        }
+
+        // Gets the best image from flickr 
+        function getFlickrImg(imgID, imgNum, maxImgs) {
+            // Get width and height of current page
+            var pageWidth = $( "div.page" ).width();        
+            var pageHeight = $( "div.page" ).height();        
+            //var bestWidth = 0;
+            //var bestHeight = 0;
+            var bestLink = 0;
+
+            // Send the JSON request for best image size
+            $.getJSON("http://api.flickr.com/services/rest/?method=flickr.photos.getSizes&nojsoncallback=1",
+               {
+                    api_key : flickrAPIKey,
+                    photo_id : imgID,
+                    format   : "json",
+               }).done(
+                   function(data) {
+                        // TODO: Find best image based on screen resolution; for now pick largest photo
+                        bestLink = data.sizes.size[data.sizes.size.length-1].source
+                        console.log("bestLink:" + bestLink);
+
+                        if ( firstPicture == false) {
+                           $("div.background_overlay").animate({opacity : 1}, 10000, function() { 
+                               $("div.background").css('background-image', "url(" + bestLink + ")");
+                           });
+                           $("div.background_overlay").animate({opacity : 0}, 10000);
+                        } else {
+                            $("div.background").css('background-image', "url(" + bestLink + ")");
+                            firstPicture = false;
+                        }
+                       
+
+                       // Create timer to restart the whole process again
+                       if (imgNum == maxImgs) {
+                           restartTimer = setInterval(function() {checkAnimateQueueLength();}, 10000);
+                       }
+               });
+        }
+
+        // Gets all of the images from flickr
+        function changeBackgroundImage() {
+            var flickrTags = ["scenic landscape", "scenic hiking", "landscapes", "scenic clouds", "fjord", "night"];
+
+            // Randomly pick tags from array
+            $.getJSON("http://api.flickr.com/services/feeds/photos_public.gne?jsoncallback=?",
+                { 
+                  tags   : flickrTags[Math.floor(Math.random() * (flickrTags.length-1))],
+                  tagmode : "any",  
+                  format : "json"
+                }).done(
+                    function(data) {
+                        $.each(data.items, function(i, item) {
+                            //get image id from link
+                            var imgID = item.link.split("/")[5];
+                            console.log("imgID:" + imgID + ", i:" + i + ", items.length:" + data.items.length );
+                            getFlickrImg(imgID, i, data.items.length-1);
+                        });
+                    });
+        }
+
+        // ============= main content =============
+        changeBackgroundImage();
+    });
+</script>
+</html> 
