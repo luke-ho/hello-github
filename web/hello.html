@@ -51,27 +51,75 @@
         }
         div.center {
             position: absolute;
-            width: 215px;
-            height: 100px;
+            width: 15.265em;
+            height: 6.25em;
             top: 27%;
             left:47%;
-            margin-top: -25px;
-            margin-left: -50px;
+            margin-top: -1.5625em;
+            margin-left: -3.125em;
         }
         div.twitterFeed{
             position: absolute;
-            width: 500px;
-            height: 300px;
+            width: 31.25em;
+            height: 18.75em;
             top: 47%;
             left: 35%;
-            margin-top: -25px;
-            margin-left: -50px;
+            margin-top: -1.5625em;
+            margin-left: -3.125em;
+        }
+
+        @media only screen 
+        and (min-device-width : 320px) 
+        and (max-device-width : 568px) 
+        and (orientation : portrait) { 
+            div.center {
+                position: absolute;
+                width: 15.265em;
+                height: 6.25em;
+                top: 12%;
+                left:48%;
+                margin-top: -1.5625em;
+                margin-left: -3.125em;
+            }
+            div.twitterFeed{
+                position: absolute;
+                width: 31.25em;
+                height: 50em;
+                top: 25%;
+                left: 33%;
+                margin-top: -1.5625em;
+                margin-left: -3.125em;
+            }
+        }
+
+        @media only screen 
+        and (min-device-width : 320px) 
+        and (max-device-width : 568px) 
+        and (orientation : landscape) { 
+            div.center {
+                position: absolute;
+                width: 15.265em;
+                height: 6.25em;
+                top: 12%;
+                left:48%;
+                margin-top: -1.5625em;
+                margin-left: -3.125em;
+            }
+
+            div.twitterFeed{
+                position: absolute;
+                width: 31.25em;
+                height: 18.75em;
+                top: 35%;
+                left: 31%;
+                margin-top: -1.5625em;
+                margin-left: -3.125em;
+            }
         }
     </style>
 </head>
 <body>  
     <div class="background"></div> 
-    
     <div class="background_overlay"></div>
     <div class="page">
         <a href="https://github.com/luke-ho/hello-github"><img style="position: absolute; top: 0; right: 0; border: 0;" src="https://s3.amazonaws.com/github/ribbons/forkme_right_darkblue_121621.png" alt="Fork me on GitHub"></a>
@@ -79,7 +127,6 @@
             <h1 id="content">Hello, GitHub!</h1>
         </div>
         <div class="twitterFeed">
-            <a class="twitter-timeline" width="500" height="300" data-chrome="noheader nofooter noborders transparent" href="https://twitter.com/search?q=Hello"  data-widget-id="403790920077680640"></a>
         </div>
     </div>
 </body>
@@ -87,6 +134,9 @@
 <script src="js/jquery-ui.min.js"></script>
 <script type="text/javascript">
     $(document).ready(function() {
+        var flickrAPIKey = "d7be36810508e06056c914d4182394f7";
+        var restartTimer;
+
         function changeColors(backgroundColor, textColor) {
             $( "div.page" ).animate({
                 backgroundColor : backgroundColor
@@ -95,9 +145,51 @@
                 color : textColor
             }, 1500);
         }
+        function addTwitterFeed() {
+            // TODO: Clean this up
+            if(window.matchMedia("(min-device-width : 320px)").matches && 
+               window.matchMedia("(max-device-width : 568px)").matches &&
+               window.matchMedia("(orientation : portrait)").matches
+            ) {
+               // We have an iPhone 5 in portrait mode!
+               $( "div.twitterFeed" ).empty();
+               $( "div.twitterFeed" ).append("<a class=\"twitter-timeline\" width=\"500\" height=\"800\" data-chrome=\"noheader nofooter noborders transparent\" href=\"https://twitter.com/search?q=Hello\"  data-widget-id=\"403790920077680640\"></a>");
+                
+            } else if (window.matchMedia("(min-device-width : 320px)").matches && 
+               window.matchMedia("(max-device-width : 568px)").matches &&
+               window.matchMedia("(orientation : landscape)").matches) {
 
-        var flickrAPIKey = "d7be36810508e06056c914d4182394f7";
-        var restartTimer;
+               // We have an iPhone 5 in landscape mode!
+               $( "div.twitterFeed" ).empty();
+               $( "div.twitterFeed" ).append("<a class=\"twitter-timeline\" width=\"500\" height=\"300\" data-chrome=\"noheader nofooter noborders transparent\" href=\"https://twitter.com/search?q=Hello\"  data-widget-id=\"403790920077680640\"></a>");
+            
+            } else {
+                // Desktop modes 
+               $( "div.twitterFeed" ).empty();
+               $( "div.twitterFeed" ).append("<a class=\"twitter-timeline\" width=\"500\" height=\"300\" data-chrome=\"noheader nofooter noborders transparent\" href=\"https://twitter.com/search?q=Hello\"  data-widget-id=\"403790920077680640\"></a>");
+
+            }
+        }
+        function addOrientationChangeSupport() {
+            window.addEventListener("orientationchange", function() {
+                addTwitterFeed();
+
+                // Reload the twitter widget
+                $.getScript("https://platform.twitter.com/widgets.js", function(){
+                });
+            }, false);
+        }
+
+        function addHeaderColorChangeSupport() {
+            $("#content").click(function(){
+                console.log("div.page's attribute:" + $("div.page").css("backgroundColor"));
+                if ( $("div.page").css("backgroundColor") == "rgb(36, 65, 107)" ) {
+                    changeColors("transparent", "#FFFFFF");
+                } else {
+                    changeColors("#24416B", "#0D1C26");
+                }
+            });
+        }
 
         // checks to see if we need to restart the whole process of getting pictures
         function checkAnimateQueueLength() {
@@ -110,7 +202,6 @@
 
             }
         }
-
         // Gets the best image from flickr 
         function getFlickrImg(imgID, imgNum, maxImgs) {
             // Get width and height of current page
@@ -131,11 +222,16 @@
                         // TODO: Find best image based on screen resolution; for now pick largest photo
                         bestLink = data.sizes.size[data.sizes.size.length-1].source
                         console.log("bestLink:" + bestLink);
-                       
-                       $("div.background_overlay").animate({opacity : 1}, 10000, function() { 
-                           $("div.background").css('background-image', "url(" + bestLink + ")");
-                       });
-                       $("div.background_overlay").animate({opacity : 0}, 10000);
+
+                        // TODO: Find best image based on screen resolution; for now pick largest photo
+                        if (data.sizes.size[data.sizes.size.length-1].height >=  pageHeight && 
+                            data.sizes.size[data.sizes.size.length-1].width >= pageWidth ) {
+
+                           $("div.background_overlay").animate({opacity : 1}, 10000, function() { 
+                               $("div.background").css('background-image', "url(" + bestLink + ")");
+                           });
+                           $("div.background_overlay").animate({opacity : 0.5}, 10000);
+                       }
 
                        // Create timer to restart the whole process again
                        if (imgNum == maxImgs) {
@@ -143,10 +239,9 @@
                        }
                });
         }
-
         // Gets all of the images from flickr
         function changeBackgroundImage() {
-            var flickrTags = ["scenic landscape", "scenic hiking", "landscapes", "scenic clouds", "fjord", "night"];
+            var flickrTags = [ "sunrise", "scenic hiking", "cove", "scenic landscape", "scenic clouds", "fjord", "night"];
 
             // Randomly pick tags from array
             $.getJSON("http://api.flickr.com/services/feeds/photos_public.gne?jsoncallback=?",
@@ -166,11 +261,9 @@
         }
 
         // ============= main content =============
-        $("#content").hover(function(){
-            changeColors("#FFFFFF", "#000000");
-        }, function() { 
-            changeColors("transparent", "#FFFFFF");
-        });
+        addTwitterFeed();
+        addOrientationChangeSupport();
+        addHeaderColorChangeSupport();
         changeBackgroundImage();
     });
 </script>
@@ -179,7 +272,4 @@
 <script>
     !function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+"://platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");
 </script>
-
-<!-- YouTube video commented out for the time being-->
-<!--<embed height="0" width="0" src="http://youtube.googleapis.com/v/z7d2Scy2yXs?autoplay=1&loop=1&vp=480p&playlist=z7d2Scy2yXs" /> -->
 </html> 
