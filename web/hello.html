@@ -50,23 +50,27 @@
             background-repeat:no-repeat;
         }
         div.center {
+            float: left;
             position: absolute;
             width: 15.265em;
             height: 6.25em;
             top: 27%;
-            left:47%;
+            left:48%;
             margin-top: -1.5625em;
             margin-left: -3.125em;
         }
         div.twitterFeed{
+            float: left;
             position: absolute;
             width: 31.25em;
             height: 18.75em;
             top: 47%;
-            left: 35%;
+            left: 37%;
             margin-top: -1.5625em;
             margin-left: -3.125em;
         }
+
+        /* iPhone 5 below */
 
         @media only screen 
         and (min-device-width : 320px) 
@@ -116,6 +120,65 @@
                 margin-left: -3.125em;
             }
         }
+
+
+        /* iPad Mini below  */
+
+        @media only screen 
+        and (min-device-width : 768px) 
+        and (max-device-width : 1024px) 
+        and (orientation : portrait)
+        and (-webkit-min-device-pixel-ratio: 1)  {
+
+            div.center {
+                position: absolute;
+                width: 15.265em;
+                height: 6.25em;
+                top: 12%;
+                left:47%;
+                margin-top: -1.5625em;
+                margin-left: -3.125em;
+            }
+
+            div.twitterFeed{
+                position: absolute;
+                width: 31.25em;
+                height: 18.75em;
+                top: 25%;
+                left: 31%;
+                margin-top: -1.5625em;
+                margin-left: -3.125em;
+            }
+
+        }
+
+        @media only screen 
+        and (min-device-width : 768px) 
+        and (max-device-width : 1024px) 
+        and (orientation : landscape)
+        and (-webkit-min-device-pixel-ratio: 1)  {
+
+            div.center {
+                position: absolute;
+                width: 15.265em;
+                height: 6.25em;
+                top: 12%;
+                left:46%;
+                margin-top: -1.5625em;
+                margin-left: -3.125em;
+            }
+
+            div.twitterFeed{
+                position: absolute;
+                width: 31.25em;
+                height: 25em;
+                top: 27%;
+                left: 31%;
+                margin-top: -1.5625em;
+                margin-left: -3.125em;
+            }
+
+        }
     </style>
 </head>
 <body>  
@@ -145,6 +208,25 @@
                 color : textColor
             }, 1500);
         }
+        function isMobileDevice() {
+            if(window.matchMedia("(min-device-width : 320px)").matches && 
+               window.matchMedia("(max-device-width : 568px)").matches) {
+                // iPhone 5
+                if (window.matchMedia("(orientation : portrait)").matches ||
+                    window.matchMedia("(orientation : landscape)").matches) {
+                        return true;
+                }
+            } else if(window.matchMedia("(min-device-width : 768px)").matches &&  
+               window.matchMedia("(max-device-width : 1024px)").matches) {
+                // iPad mini
+                if (window.matchMedia("(orientation : portrait)").matches ||
+                    window.matchMedia("(orientation : landscape)").matches) {
+                        return true;
+                }
+            }
+            return false;
+        }
+
         function addTwitterFeed() {
             // TODO: Clean this up
             if(window.matchMedia("(min-device-width : 320px)").matches && 
@@ -153,7 +235,7 @@
             ) {
                // We have an iPhone 5 in portrait mode!
                $( "div.twitterFeed" ).empty();
-               $( "div.twitterFeed" ).append("<a class=\"twitter-timeline\" width=\"500\" height=\"800\" data-chrome=\"noheader nofooter noborders transparent\" href=\"https://twitter.com/search?q=Hello\"  data-widget-id=\"403790920077680640\"></a>");
+               $( "div.twitterFeed" ).append("<a class=\"twitter-timeline\" width=\"500\" height=\"800\" data-chrome=\"noheader nofooter noborders noscrollbar transparent\" href=\"https://twitter.com/search?q=Hello\"  data-widget-id=\"403790920077680640\"></a>");
                 
             } else if (window.matchMedia("(min-device-width : 320px)").matches && 
                window.matchMedia("(max-device-width : 568px)").matches &&
@@ -161,12 +243,29 @@
 
                // We have an iPhone 5 in landscape mode!
                $( "div.twitterFeed" ).empty();
-               $( "div.twitterFeed" ).append("<a class=\"twitter-timeline\" width=\"500\" height=\"300\" data-chrome=\"noheader nofooter noborders transparent\" href=\"https://twitter.com/search?q=Hello\"  data-widget-id=\"403790920077680640\"></a>");
+               $( "div.twitterFeed" ).append("<a class=\"twitter-timeline\" width=\"500\" height=\"300\" data-chrome=\"noheader nofooter noborders noscrollbar transparent\" href=\"https://twitter.com/search?q=Hello\"  data-widget-id=\"403790920077680640\"></a>");
+            
+            } else if (window.matchMedia("(min-device-width : 768px)").matches && 
+               window.matchMedia("(max-device-width : 1024px)").matches &&
+               window.matchMedia("(orientation : portrait)").matches) {
+
+                // We have an iPad mini in portrait mode!
+               $( "div.twitterFeed" ).empty();
+               $( "div.twitterFeed" ).append("<a class=\"twitter-timeline\" width=\"500\" height=\"800\" data-chrome=\"noheader nofooter noborders noscrollbar transparent\" href=\"https://twitter.com/search?q=Hello\"  data-widget-id=\"403790920077680640\"></a>");
+
+
+            } else if (window.matchMedia("(min-device-width : 768px)").matches && 
+               window.matchMedia("(max-device-width : 1024px)").matches &&
+               window.matchMedia("(orientation : landscape)").matches) {
+                // We have an iPad mini in landscape mode!
+               $( "div.twitterFeed" ).empty();
+               $( "div.twitterFeed" ).append("<a class=\"twitter-timeline\" width=\"500\" height=\"400\" data-chrome=\"noheader nofooter noborders noscrollbar transparent\" href=\"https://twitter.com/search?q=Hello\"  data-widget-id=\"403790920077680640\"></a>");
+            
             
             } else {
                 // Desktop modes 
                $( "div.twitterFeed" ).empty();
-               $( "div.twitterFeed" ).append("<a class=\"twitter-timeline\" width=\"500\" height=\"300\" data-chrome=\"noheader nofooter noborders transparent\" href=\"https://twitter.com/search?q=Hello\"  data-widget-id=\"403790920077680640\"></a>");
+               $( "div.twitterFeed" ).append("<a class=\"twitter-timeline\" width=\"500\" height=\"300\" data-chrome=\"noheader nofooter noborders noscrollbar transparent\" href=\"https://twitter.com/search?q=Hello\"  data-widget-id=\"403790920077680640\"></a>");
 
             }
         }
@@ -219,24 +318,41 @@
                     format   : "json",
                }).done(
                    function(data) {
-                        // TODO: Find best image based on screen resolution; for now pick largest photo
-                        bestLink = data.sizes.size[data.sizes.size.length-1].source
-                        console.log("bestLink:" + bestLink);
+                    var bestLocation = 0;
+                    if ( data.sizes.size.length >= 1 ) {
+                        if ( isMobileDevice() == true ) { 
+                            for ( var i = data.sizes.size.length-1; i >= 0; i-- ) {
+                                if (data.sizes.size[i].height >=  pageHeight && 
+                                    data.sizes.size[i].width >= pageWidth ) {
+                                    bestLocation = i;
+                                } else {
+                                    break;
+                                }
+                            }
+                        } else {
+                            bestLocation = data.sizes.size.length-1;
+                        }
+                        bestLink = data.sizes.size[bestLocation].source
+                        console.log("location: " + bestLocation + ", bestLink:" + bestLink);
 
                         // TODO: Find best image based on screen resolution; for now pick largest photo
-                        if (data.sizes.size[data.sizes.size.length-1].height >=  pageHeight && 
-                            data.sizes.size[data.sizes.size.length-1].width >= pageWidth ) {
+
+
+                        if (data.sizes.size[bestLocation].height >=  pageHeight && 
+                            data.sizes.size[bestLocation].width >= pageWidth ) {
 
                            $("div.background_overlay").animate({opacity : 1}, 10000, function() { 
                                $("div.background").css('background-image', "url(" + bestLink + ")");
                            });
                            $("div.background_overlay").animate({opacity : 0.5}, 10000);
-                       }
 
-                       // Create timer to restart the whole process again
-                       if (imgNum == maxImgs) {
-                           restartTimer = setInterval(function() {checkAnimateQueueLength();}, 10000);
-                       }
+                           // Create timer to restart the whole process again
+                        }
+                   }
+
+                   if (imgNum == maxImgs) {
+                       restartTimer = setInterval(function() {checkAnimateQueueLength();}, 10000);
+                   }
                });
         }
         // Gets all of the images from flickr
