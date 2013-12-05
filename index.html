@@ -105,7 +105,7 @@
                 width: 15.265em;
                 height: 6.25em;
                 top: 12%;
-                left:48%;
+                left:46%;
                 margin-top: -1.5625em;
                 margin-left: -3.125em;
             }
@@ -336,15 +336,13 @@
                         console.log("location: " + bestLocation + ", bestLink:" + bestLink);
 
                         // TODO: Find best image based on screen resolution; for now pick largest photo
-
-
                         if (data.sizes.size[bestLocation].height >=  pageHeight && 
                             data.sizes.size[bestLocation].width >= pageWidth ) {
 
                            $("div.background_overlay").animate({opacity : 1}, 10000, function() { 
                                $("div.background").css('background-image', "url(" + bestLink + ")");
                            });
-                           $("div.background_overlay").animate({opacity : 0.5}, 10000);
+                           $("div.background_overlay").animate({opacity : 0.3}, 10000);
 
                            // Create timer to restart the whole process again
                         }
