@@ -70,6 +70,25 @@
             }
         }
 
+        function isMobileDevice() {
+            if(window.matchMedia("(min-device-width : 320px)").matches && 
+               window.matchMedia("(max-device-width : 568px)").matches) {
+                // iPhone 5
+                if (window.matchMedia("(orientation : portrait)").matches ||
+                    window.matchMedia("(orientation : landscape)").matches) {
+                        return true;
+                }
+            } else if(window.matchMedia("(min-device-width : 768px)").matches &&  
+               window.matchMedia("(max-device-width : 1024px)").matches) {
+                // iPad mini
+                if (window.matchMedia("(orientation : portrait)").matches ||
+                    window.matchMedia("(orientation : landscape)").matches) {
+                        return true;
+                }
+            }
+            return false;
+        }
+
         // Gets the best image from flickr 
         function getFlickrImg(imgID, imgNum, maxImgs) {
             // Get width and height of current page
@@ -87,31 +106,46 @@
                     format   : "json",
                }).done(
                    function(data) {
-                        // TODO: Find best image based on screen resolution; for now pick largest photo
-                        bestLink = data.sizes.size[data.sizes.size.length-1].source
-                        console.log("bestLink:" + bestLink);
+                    var bestLocation = 0;
+                    if ( data.sizes.size.length >= 1 ) {
+                        if ( isMobileDevice() == true ) { 
+                            for ( var i = data.sizes.size.length-1; i >= 0; i-- ) {
+                                if (data.sizes.size[i].height >=  pageHeight && 
+                                    data.sizes.size[i].width >= pageWidth ) {
+                                    bestLocation = i;
+                                } else {
+                                    break;
+                                }
+                            }
+                        } else {
+                            bestLocation = data.sizes.size.length-1;
+                        }
+                        bestLink = data.sizes.size[bestLocation].source
+                        console.log("location: " + bestLocation + ", bestLink:" + bestLink);
 
-                        if ( firstPicture == false) {
+                        // TODO: Find best image based on screen resolution; for now pick largest photo
+                        if (data.sizes.size[bestLocation].height >=  pageHeight && 
+                            data.sizes.size[bestLocation].width >= pageWidth ) {
+
                            $("div.background_overlay").animate({opacity : 1}, 10000, function() { 
                                $("div.background").css('background-image', "url(" + bestLink + ")");
                            });
                            $("div.background_overlay").animate({opacity : 0}, 10000);
-                        } else {
-                            $("div.background").css('background-image', "url(" + bestLink + ")");
-                            firstPicture = false;
-                        }
-                       
 
-                       // Create timer to restart the whole process again
-                       if (imgNum == maxImgs) {
-                           restartTimer = setInterval(function() {checkAnimateQueueLength();}, 10000);
-                       }
+                           // Create timer to restart the whole process again
+                        }
+                   }
+
+                   if (imgNum == maxImgs) {
+                       restartTimer = setInterval(function() {checkAnimateQueueLength();}, 10000);
+                   }
                });
         }
 
         // Gets all of the images from flickr
         function changeBackgroundImage() {
-            var flickrTags = ["scenic landscape", "scenic hiking", "landscapes", "scenic clouds", "fjord", "night"];
+            var flickrTags = [ "tropical forest", "cliff", "sunrise", "scenic hiking", "cove", "scenic landscape", "scenic clouds", "fjord", "night"];
+
 
             // Randomly pick tags from array
             $.getJSON("http://api.flickr.com/services/feeds/photos_public.gne?jsoncallback=?",
