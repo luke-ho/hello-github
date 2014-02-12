@@ -36,7 +36,7 @@ class StackNode {
         TYPE getVal() const {
             return val;
         }
-        StackNode<TYPE> * getNext() {
+        StackNode<TYPE> * getNext() const {
             return next;
         }
         void setVal(TYPE n) {
