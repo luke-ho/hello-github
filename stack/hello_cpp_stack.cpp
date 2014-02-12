@@ -2,21 +2,21 @@
 
 using namespace std;
 
-template <class T>
+template <class TYPE>
 class StackNode {
     protected:
-        T val;
-        StackNode<T> * next;
+        TYPE val;
+        StackNode<TYPE> * next;
     public:
         StackNode() {
             val = 0;
             next = NULL;
         }
-        StackNode(T v) {
+        StackNode(TYPE v) {
             val = v;
             next = NULL;
         }
-        StackNode(T * v) : StackNode() {
+        StackNode(TYPE * v) : StackNode() {
             if ( v ) {
                 val = v->val;
                 next = v->next;
@@ -24,7 +24,7 @@ class StackNode {
                 cout << "(" << __LINE__ << "): Error: ptr passed in is NULL" << endl;
             }
         }
-        StackNode(T v, StackNode<T> * n) :  StackNode() {
+        StackNode(TYPE v, StackNode<TYPE> * n) :  StackNode() {
             val = v;
             next = n;
         }
@@ -33,25 +33,25 @@ class StackNode {
                 next = NULL;
             }
         }
-        T getVal() {
+        TYPE getVal() const {
             return val;
         }
-        StackNode<T> * getNext() {
+        StackNode<TYPE> * getNext() {
             return next;
         }
-        void setVal(T n) {
+        void setVal(TYPE n) {
             val = n;
         }   
-        void setNext(StackNode<T> * n) {
+        void setNext(StackNode<TYPE> * n) {
             next = n;
         }
 };
 
-template <class T>
+template <class TYPE>
 class Stack {
     protected:
         int count;
-        StackNode<T> * top;
+        StackNode<TYPE> * top;
     public:
         Stack() {
             count = 0;
@@ -59,7 +59,7 @@ class Stack {
         }
 
         ~Stack() {
-            StackNode<T> * tmp; 
+            StackNode<TYPE> * tmp; 
             if ( top )  {
                 while(top) {
                     tmp = top;
@@ -70,13 +70,13 @@ class Stack {
             }
         }
 
-        bool push(T val) {
+        bool push(TYPE val) {
             if ( !val ) {
                 return false;
             }
             if ( top ) {
-                StackNode<T> * tmp = top;
-                top = new (nothrow) StackNode<T>(val);
+                StackNode<TYPE> * tmp = top;
+                top = new (nothrow) StackNode<TYPE>(val);
                 if ( !top ) {
                     cout << "(" << __LINE__ << "): Ran out of memory while trying to allocate new node" << endl;
                     return false;
@@ -85,7 +85,7 @@ class Stack {
                 count++;
                 return true;
             } else {
-                top = new (nothrow) StackNode<T>(val);
+                top = new (nothrow) StackNode<TYPE>(val);
                 if ( !top ) {
                     cout << "(" << __LINE__ << "): Ran out of memory while trying to allocate new node" << endl;
                     return false;
@@ -95,13 +95,13 @@ class Stack {
             }
         }
 
-        bool push(StackNode<T> * s) {
+        bool push(StackNode<TYPE> * s) {
             if ( !s ) {
                 return false;
             }
             if ( top ) {
-                StackNode<T> * tmp = top;
-                top = new (nothrow) StackNode<T>(s);
+                StackNode<TYPE> * tmp = top;
+                top = new (nothrow) StackNode<TYPE>(s);
                 if ( !top ) {
                     cout << "(" << __LINE__ << "): Ran out of memory while trying to allocate new node" << endl;
                     return false;
@@ -110,7 +110,7 @@ class Stack {
                 count++;
                 return true;
             } else {
-                top = new (nothrow) StackNode<T>(s);
+                top = new (nothrow) StackNode<TYPE>(s);
                 if ( !top ) {
                     cout << "(" << __LINE__ << "): Ran out of memory while trying to allocate new node" << endl;
                     return false;
@@ -120,9 +120,9 @@ class Stack {
             }
         }
 
-        StackNode<T> * pop() {
+        StackNode<TYPE> * pop() {
             if ( count > 0 ) { 
-                StackNode<T> * tmp = top;
+                StackNode<TYPE> * tmp = top;
                 top = top->getNext();
                 count--;
                 return tmp;
@@ -132,7 +132,7 @@ class Stack {
             return NULL;
         }
 
-        int getCount() {
+        int getCount() const {
             return count;
         }
 };
