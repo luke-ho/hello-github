@@ -4,7 +4,7 @@ using namespace std;
 
 template <class TYPE>
 class StackNode {
-    protected:
+    private:
         TYPE val;
         StackNode<TYPE> * next;
     public:
@@ -49,7 +49,7 @@ class StackNode {
 
 template <class TYPE>
 class Stack {
-    protected:
+    private:
         int count;
         StackNode<TYPE> * top;
     public:
