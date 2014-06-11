@@ -1,4 +1,4 @@
-hello-github
+hello-github ![build status](https://travis-ci.org/luke-ho/hello-github.svg?branch=master)
 ============
 
 ![alt tag](https://raw.github.com/luke-ho/hello-github/master/img/hello_github.png)
