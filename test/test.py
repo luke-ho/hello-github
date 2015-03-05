@@ -18,6 +18,7 @@ tests = [
 		 "perl hello.pl",
 		 "sh hello.sh",
 		 "tclsh hello.tcl",
+		 "go run hello.go",
 		 "cat hello.txt",
 		 "stack/bin/hello_cpp_stack" 
 		]
