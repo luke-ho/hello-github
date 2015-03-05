@@ -2,6 +2,12 @@ hello-github ![build status](https://travis-ci.org/luke-ho/hello-github.svg?bran
 ============
 
 ![alt tag](https://raw.github.com/luke-ho/hello-github/master/img/hello_github.png)
+============
+
+Now with more Golang!
+
+![gogopher](http://glenda.cat-v.org/friends/gordon-the-gopher.png) 
+-----------
 
 Compiling
 ============
