@@ -20,7 +20,7 @@ tests = [
 		 "tclsh hello.tcl",
 		 "go run hello.go",
 		 "cat hello.txt",
-		 "stack/bin/hello_cpp_stack" 
+		 "complex/stack/cpp/bin/hello_cpp_stack" 
 		]
 
 def run_test(test):
