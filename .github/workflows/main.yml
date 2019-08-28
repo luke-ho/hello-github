@@ -14,5 +14,3 @@ jobs:
     - name: Run make
       run: | 
         make
-        cd test
-        python test.py
