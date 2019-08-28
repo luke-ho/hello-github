@@ -12,19 +12,19 @@ Now with more Golang!
 Compiling
 ============
 
-###Compiling C, C++, and Java examples
+### Compiling C, C++, and Java examples
 
     make
 
-###Compiling just the C example
+### Compiling just the C example
 
     make c
 
-###Compiling just the C++ example
+### Compiling just the C++ example
 
     make cpp
 
-###Compiling just the Java example
+### Compiling just the Java example
 
     make java
 
@@ -33,7 +33,7 @@ If your compiler is located in a different directory, update the CPP_BIN, C_BIN,
 Running 
 ============
 
-###Compiled languages (C, C++, Java)
+### Compiled languages (C, C++, Java)
 
 Go to the bin directory and run the respective commands to run the application.
 
@@ -41,7 +41,7 @@ Go to the bin directory and run the respective commands to run the application.
     ./hello_cpp
     java hello
 
-###Interpreted languages
+### Interpreted languages
 
 Run the respective interpreter with the language.
 
