@@ -12,4 +12,7 @@ jobs:
     - name: Say Hello
       run: echo "Hello, GitHub!"
     - name: Run make
-      run: make
+      run: | 
+        make
+        cd test
+        python test.py
